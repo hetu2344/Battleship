@@ -8,4 +8,4 @@ Any changes and recommendations regarding this project will be most welcomed.
 Thankyou,
 Het Patel
 # Cloning repository
-To clone this copy this \copy{https://github.com/hetu2344/Battleship.git}
+To clone this copy this /copy{https://github.com/hetu2344/Battleship.git}
