@@ -25,4 +25,5 @@ https://github.com/hetu2344/Battleship.git
 # Notes
 Any changes and recommendations regarding this project will be most welcomed.  
 Thankyou,  
-Het Patel
+Het Patel  
+<a href="http://example.com/" target="_blank">example</a>
