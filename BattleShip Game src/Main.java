@@ -5,12 +5,12 @@ import java.util.Scanner;
 public class Main {
     private static final Scanner s = new Scanner(System.in);
     
-    private void changePlayer() {
+    private static void changePlayer() {
         System.out.println("Press Enter and pass the move to another player");
         s.nextLine();
     }
     
-    public void startGame() {
+    public static void startGame() {
         ArrayList<Ship> ships1 = new ArrayList<>();
         ArrayList<Ship> ships2 = new ArrayList<>();
         final int[] shipsLength = { 5, 4, 3, 3, 2 };
@@ -54,4 +54,7 @@ public class Main {
             changePlayer();
         } while(true);
     }
+    
+    public void main(String[] args){
+        startGame();
 }
