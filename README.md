@@ -26,4 +26,3 @@ https://github.com/hetu2344/Battleship.git
 Any changes and recommendations regarding this project will be most welcomed.  
 Thankyou,  
 Het Patel
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
