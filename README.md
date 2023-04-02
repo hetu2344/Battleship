@@ -8,4 +8,13 @@ Any changes and recommendations regarding this project will be most welcomed.
 Thankyou,
 Het Patel
 # Cloning repository
-To clone this copy this /copy{https://github.com/hetu2344/Battleship.git}
+To clone this copy the following into terminal:
+```
+git clone https://github.com/hetu2344/Battleship.git
+```
+## Cloning in VS code
+Open command `Command Palette` by shortcut: `cmd + shift + P` and type `Git clone`
+select the first option and paste the following: 
+```
+https://github.com/hetu2344/Battleship.git
+```
