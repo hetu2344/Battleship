@@ -1,7 +1,7 @@
 # Battleship
 Console version of Battleship game coded in Java.  
 Battleship is palyed between two players, each player have their own battle gound in which they arrange their 5 ships. Player who destroy all the ships of opponent first is winner.  
-More on this can be found here: https://en.wikipedia.org/wiki/Battleship_(game).  
+More on this can be found here: .  
 # Compile and Running the Code
 Compile all the files and run the `Main.java` file to start the demo of game.
 All of the source code is currently under working stage as well,
@@ -26,4 +26,4 @@ https://github.com/hetu2344/Battleship.git
 Any changes and recommendations regarding this project will be most welcomed.  
 Thankyou,  
 Het Patel  
-<a href="http://example.com/" target="_blank">example</a>
+<a href="https://en.wikipedia.org/wiki/Battleship_(game)" target="_blank">Battleship</a>  
