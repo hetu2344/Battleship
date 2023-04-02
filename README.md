@@ -7,3 +7,5 @@ I will uplode the source code for GUI version of game as well once it starts tal
 Any changes and recommendations regarding this project will be most welcomed.
 Thankyou,
 Het Patel
+# Cloning repository
+To clone this copy this 
