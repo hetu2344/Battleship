@@ -26,17 +26,3 @@ https://github.com/hetu2344/Battleship.git
 Any changes and recommendations regarding this project will be most welcomed.  
 Thankyou,  
 Het Patel  
-```javascript
-var s = "JavaScript syntax highlighting";
-alert(s);
-```
- 
-```python
-s = "Python syntax highlighting"
-print s
-```
- 
-```
-No language indicated, so no syntax highlighting. 
-But let's throw in a <b>tag</b>.
-```
