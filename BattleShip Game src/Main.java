@@ -55,7 +55,7 @@ public class Main {
         } while (true);
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         startGame();
     }
 }
