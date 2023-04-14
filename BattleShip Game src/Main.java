@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Main {
     private static final Scanner s = new Scanner(System.in);
-    
+
     private static void changePlayer() {
         System.out.println("Press Enter and pass the move to another player");
         s.nextLine();
     }
-    
+
     public static void startGame() {
         ArrayList<Ship> ships1 = new ArrayList<>();
         ArrayList<Ship> ships2 = new ArrayList<>();
@@ -31,7 +31,7 @@ public class Main {
         System.out.println(p2.getName() + ", place your ships on the game field");
         p2.getGame().startGame();
         changePlayer();
-        do  {
+        do {
             p2.getGame().printBattleGroundFOG();
             System.out.println("---------------------");
             p1.getGame().printBattleGround();
@@ -52,9 +52,10 @@ public class Main {
                 break;
             }
             changePlayer();
-        } while(true);
+        } while (true);
     }
-    
-    public void main(String[] args){
+
+    public void main(String[] args) {
         startGame();
+    }
 }

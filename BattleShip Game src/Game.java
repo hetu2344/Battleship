@@ -76,32 +76,40 @@ public class Game {
         int d = co[3];
         boolean Svalid;
         boolean Evalid;
-        if(a == 0 && b == 0) {
+        if (a == 0 && b == 0) {
             Svalid = empty(a + 1, b) && empty(a, b + 1);
-        } else if(a == 9 && b == 9) {
+        } else if (a == 9 && b == 9) {
             Svalid = empty(a - 1, b) && empty(a, b - 1);
-        } else if(a == 0) {
+        } else if (a == 0 && b == 9) {
+            Svalid = empty(a, b - 1) && empty(a + 1, b);
+        } else if (a == 9 && b == 0) {
+            Svalid = empty(a - 1, b) && empty(a, b + 1);
+        } else if (a == 0) {
             Svalid = empty(a + 1, b) && empty(a, b - 1) && empty(a, b + 1);
-        } else if(b == 0) {
+        } else if (b == 0) {
             Svalid = empty(a + 1, b) && empty(a - 1, b) && empty(a, b + 1);
-        } else if(a == 9) {
+        } else if (a == 9) {
             Svalid = empty(a - 1, b) && empty(a, b - 1) && empty(a, b + 1);
-        } else if(b == 9) {
+        } else if (b == 9) {
             Svalid = empty(a - 1, b) && empty(a + 1, b) && empty(a, b - 1);
         } else {
             Svalid = empty(a - 1, b) && empty(a + 1, b) && empty(a, b + 1) && empty(a, b - 1);
         }
-        if(c == 0 && d == 0) {
+        if (c == 0 && d == 0) {
             Evalid = empty(c + 1, d) && empty(c, d + 1);
-        } else if(c == 9 && d == 9) {
+        } else if (c == 9 && d == 9) {
             Evalid = empty(c - 1, d) && empty(c, d - 1);
-        } else if(c == 0) {
+        } else if (c == 0 && d == 9) {
+            Evalid = empty(c, d - 1) && empty(c + 1, d);
+        } else if (c == 9 && d == 0) {
+            Evalid = empty(c - 1, d) && empty(c, d + 1);
+        } else if (c == 0) {
             Evalid = empty(c + 1, d) && empty(c, d - 1) && empty(c, d + 1);
-        } else if(d == 0) {
+        } else if (d == 0) {
             Evalid = empty(c + 1, d) && empty(c - 1, d) && empty(c, d + 1);
-        } else if(c == 9) {
+        } else if (c == 9) {
             Evalid = empty(c - 1, d) && empty(c, d - 1) && empty(c, d + 1);
-        } else if(d == 9) {
+        } else if (d == 9) {
             Evalid = empty(c - 1, d) && empty(c + 1, d) && empty(c, d - 1);
         } else {
             Evalid = empty(c - 1, d) && empty(c + 1, d) && empty(c, d + 1) && empty(c, d - 1);
