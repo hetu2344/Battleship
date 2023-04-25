@@ -214,23 +214,26 @@ public class Game {
         }
     }
 
-    private int[] getCoordinates(String shipName, int shipLength) throws IncorrectHCoordinate {
+    private int[] getCoordinates(String shipName, int shipLength) throws IncorrectVCoordinate, IncorrectHCoordinate {
         int[] coordinates = new int[4];
         System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
         do {
             String start = s.next().toUpperCase();
-            int start1 = -1, start2 = -1;
+            int start_V = -1, start_H = -1;
             try {
-                start1 = convertToNumeric(start.charAt(0));
-                if (start1 > 9 || start1 < 0) {
-                    throw new IncorrectHCoordinate(start.charAt(0));
+                start_V = convertToNumeric(start.charAt(0));
+                if (start_V > 9 || start_V < 0) {
+                    throw new IncorrectVCoordinate(start.charAt(0));
                 }
-                start2 = Integer.parseInt(start.substring(1)) - 1;
-                coordinates[0] = start1;
-                coordinates[1] = start2;
+                start_H = Integer.parseInt(start.substring(1)) - 1;
+                if (start_H > 9 || start_H < 0) {
+                    throw new IncorrectHCoordinate(start_H);
+                }
+                coordinates[0] = start_V;
+                coordinates[1] = start_H;
                 break;
-            } catch (IncorrectHCoordinate h) {
-                System.out.println(h.getMessage());
+            } catch (IncorrectVCoordinate | IncorrectHCoordinate i) {
+                System.out.println(i.getMessage());
             } catch (NumberFormatException e) {
                 System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
                         "coordinate." + "\nEnter from: 1 - 10 !!");
@@ -238,18 +241,21 @@ public class Game {
         } while (true);
         do {
             String end = s.next().toUpperCase();
-            int end1 = -1, end2 = -1;
+            int end_V = -1, end_H = -1;
             try {
-                end1 = convertToNumeric(end.charAt(0));
-                if (end1 > 9 || end1 < 0) {
-                    throw new IncorrectHCoordinate(end.charAt(0));
+                end_V = convertToNumeric(end.charAt(0));
+                if (end_V > 9 || end_V < 0) {
+                    throw new IncorrectVCoordinate(end.charAt(0));
                 }
-                end2 = Integer.parseInt(end.substring(1)) - 1;
-                coordinates[2] = end1;
-                coordinates[3] = end2;
+                end_H = Integer.parseInt(end.substring(1)) - 1;
+                if (end_H > 9 || end_H < 0) {
+                    throw new IncorrectHCoordinate(end_H);
+                }
+                coordinates[2] = end_V;
+                coordinates[3] = end_H;
                 break;
-            } catch (IncorrectHCoordinate h) {
-                System.out.println(h.getMessage());
+            } catch (IncorrectVCoordinate | IncorrectHCoordinate i) {
+                System.out.println(i.getMessage());
             } catch (NumberFormatException e) {
                 System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
                         "coordinate." + "\nEnter from: 1 - 10 !!");
@@ -350,10 +356,6 @@ public class Game {
             e.getMessage();
         }
         printBattleGround();
-        // System.out.println("The game starts!");
-        // printBattleGroundFOG();
-        // shootMissile();
-        // System.out.println("You sank the last ship. You won. Congratulations!");
     }
 
     public int getCountOfSink() {
