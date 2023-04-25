@@ -214,37 +214,45 @@ public class Game {
         }
     }
 
-    private int[] getCoordinates(String shipName, int shipLength) {
+    private int[] getCoordinates(String shipName, int shipLength) throws IncorrectHCoordinate {
         int[] coordinates = new int[4];
-        // TO-DO: Move start1, end1 into one try-catch block 
-        // and start2, end 2 into another block.
-        // Handle HORIZONTAL coordinate exception as written,
-        // while write if loop with condition if -1 < ƒ < 10 then 
-        // ask user to enter again.
-        // 
         System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
         do {
             String start = s.next().toUpperCase();
-            String end = s.next().toUpperCase();
-            int start1 = -1, start2 = -1, end1 = -1, end2 = -1;
+            int start1 = -1, start2 = -1;
             try {
+                start1 = convertToNumeric(start.charAt(0));
+                if (start1 > 9 || start1 < 0) {
+                    throw new IncorrectHCoordinate(start.charAt(0));
+                }
                 start2 = Integer.parseInt(start.substring(1)) - 1;
-                end2 = Integer.parseInt(end.substring(1)) - 1;
+                coordinates[0] = start1;
                 coordinates[1] = start2;
-                coordinates[3] = end2;
-            } catch (Exception e) {
+                break;
+            } catch (IncorrectHCoordinate h) {
+                System.out.println(h.getMessage());
+            } catch (NumberFormatException e) {
                 System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
                         "coordinate." + "\nEnter from: 1 - 10 !!");
             }
+        } while (true);
+        do {
+            String end = s.next().toUpperCase();
+            int end1 = -1, end2 = -1;
             try {
-                start1 = convertToNumeric(start.charAt(0));
                 end1 = convertToNumeric(end.charAt(0));
-                coordinates[0] = start1;
+                if (end1 > 9 || end1 < 0) {
+                    throw new IncorrectHCoordinate(end.charAt(0));
+                }
+                end2 = Integer.parseInt(end.substring(1)) - 1;
                 coordinates[2] = end1;
+                coordinates[3] = end2;
                 break;
-            } catch (Exception e) {
-                System.out.println(e.getMessage() + "incorrect VERTICAL coordinate." +
-                        "\nEnter from: A - J !!");
+            } catch (IncorrectHCoordinate h) {
+                System.out.println(h.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
+                        "coordinate." + "\nEnter from: 1 - 10 !!");
             }
         } while (true);
         return coordinates;
@@ -314,28 +322,32 @@ public class Game {
     }
 
     public void assignShips() {
-        for (int i = 0; i < ships.size(); i++) {
-            int shipLength = ships.get(i).getLength();
-            String shipName = ships.get(i).getName();
-            printBattleGround();
-            int[] coordinates = getCoordinates(shipName, shipLength);
-            int inputLength = findLength(coordinates);
-            boolean length = shipLength == inputLength;
-            boolean fits = fits(coordinates);
-            while (!(length) || !(fits)) {
-                if (inputLength == -1) {
-                    System.out.println("Error! Wrong ship location! Try again: ");
-                } else if (!(length)) {
-                    System.out.println("Error! Wrong length of " + shipName + " Try again: ");
-                } else {
-                    System.out.println("Error! You placed it to close to another one. Try again: ");
+        try {
+            for (int i = 0; i < ships.size(); i++) {
+                int shipLength = ships.get(i).getLength();
+                String shipName = ships.get(i).getName();
+                printBattleGround();
+                int[] coordinates = getCoordinates(shipName, shipLength);
+                int inputLength = findLength(coordinates);
+                boolean length = shipLength == inputLength;
+                boolean fits = fits(coordinates);
+                while (!(length) || !(fits)) {
+                    if (inputLength == -1) {
+                        System.out.println("Error! Wrong ship location! Try again: ");
+                    } else if (!(length)) {
+                        System.out.println("Error! Wrong length of " + shipName + " Try again: ");
+                    } else {
+                        System.out.println("Error! You placed it to close to another one. Try again: ");
+                    }
+                    coordinates = getCoordinates(shipName, shipLength);
+                    inputLength = findLength(coordinates);
+                    length = shipLength == inputLength;
+                    fits = fits(coordinates);
                 }
-                coordinates = getCoordinates(shipName, shipLength);
-                inputLength = findLength(coordinates);
-                length = shipLength == inputLength;
-                fits = fits(coordinates);
+                fillShip(coordinates, i);
             }
-            fillShip(coordinates, i);
+        } catch (Exception e) {
+            e.getMessage();
         }
         printBattleGround();
         // System.out.println("The game starts!");
