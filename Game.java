@@ -77,8 +77,6 @@ public class Game {
             return b > d ? b - d + 1 : d - b + 1;
         } else if (b == d) {
             return a > c ? a - c + 1 : c - a + 1;
-        } else if (a == -1 || c == -1) {
-            return -1;
         } else {
             return -1;
         }
@@ -217,16 +215,32 @@ public class Game {
     }
 
     private int[] getCoordinates(String shipName, int shipLength) {
-        System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
-        String start = s.next().toUpperCase();
-        String end = s.next().toUpperCase();
-        int start2 = Integer.parseInt(start.substring(1)) - 1;
-        int end2 = Integer.parseInt(end.substring(1)) - 1;
-        int[] coordinates = { 0, start2, 0, end2 };
-        int start1 = convertToNumeric(start.charAt(0));
-        int end1 = convertToNumeric(end.charAt(0));
-        coordinates[0] = start1;
-        coordinates[2] = end1;
+        int[] coordinates = new int[4];
+        do {
+            System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
+            String start = s.next().toUpperCase();
+            String end = s.next().toUpperCase();
+            int start1 = -1, start2 = -1, end1 = -1, end2 = -1;
+            try {
+                start2 = Integer.parseInt(start.substring(1)) - 1;
+                end2 = Integer.parseInt(end.substring(1)) - 1;
+                coordinates[1] = start2;
+                coordinates[3] = end2;
+            } catch (Exception e) {
+                System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
+                        "coordinate." + "\nEnter from: 1 - 10 !!");
+            }
+            try {
+                start1 = convertToNumeric(start.charAt(0));
+                end1 = convertToNumeric(end.charAt(0));
+                coordinates[0] = start1;
+                coordinates[2] = end1;
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage() + "incorrect VERTICAL coordinate." +
+                        "\nEnter from: A - J !!");
+            }
+        } while (true);
         return coordinates;
     }
 
@@ -293,7 +307,7 @@ public class Game {
         }
     }
 
-    public void startGame() {
+    public void assignShips() {
         for (int i = 0; i < ships.size(); i++) {
             int shipLength = ships.get(i).getLength();
             String shipName = ships.get(i).getName();

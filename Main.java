@@ -26,10 +26,10 @@ public class Main {
         p1.getGame().setShip(ships1);
         p2.getGame().setShip(ships2);
         System.out.println(p1.getName() + ", place your ships on the game field");
-        p1.getGame().startGame();
+        p1.getGame().assignShips();
         changePlayer();
         System.out.println(p2.getName() + ", place your ships on the game field");
-        p2.getGame().startGame();
+        p2.getGame().assignShips();
         changePlayer();
         do {
             p2.getGame().printBattleGroundFOG();
