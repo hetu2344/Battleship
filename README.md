@@ -10,7 +10,7 @@ so comment and more efficient methods are subject to changes and updates will be
 Currently, I am working to make a better graphical version this game by implementing GUI components available in java.
 I will uplode the source code for GUI version of game as well once it starts talking some shape.
 #### Updates
-Any changes regarding source code will be updates as they are made and can be seen in `updates` brance of repository.
+Any changes regarding source code will be updated as they are made and can be seen in `updates.md` file.
 # Cloning repository
 To clone this copy the following into terminal:
 ```
