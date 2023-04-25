@@ -216,8 +216,14 @@ public class Game {
 
     private int[] getCoordinates(String shipName, int shipLength) {
         int[] coordinates = new int[4];
+        // TO-DO: Move start1, end1 into one try-catch block 
+        // and start2, end 2 into another block.
+        // Handle HORIZONTAL coordinate exception as written,
+        // while write if loop with condition if -1 < ƒ < 10 then 
+        // ask user to enter again.
+        // 
+        System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
         do {
-            System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
             String start = s.next().toUpperCase();
             String end = s.next().toUpperCase();
             int start1 = -1, start2 = -1, end1 = -1, end2 = -1;
