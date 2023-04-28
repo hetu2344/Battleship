@@ -1,10 +1,15 @@
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Game {
-    final private String row = "ABCDEFGHIJ";
-    final private String column = "  1 2 3 4 5 6 7 8 9 10";
+    final private String VERTICAL_COORDINATES = "ABCDEFGHIJ";
+    final private String HORRIZONTAL_COORDINATES = "  1 2 3 4 5 6 7 8 9 10";
+    final private Scanner INPUT = new Scanner(System.in);
+    private HashSet<Integer> invalid_coordinates = new HashSet<>();
+    ArrayList<Ship> ships = new ArrayList<>();
+    private int countOfSink = 0;
     protected char[][] battleGround = { { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', },
             { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', },
             { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', },
@@ -25,18 +30,18 @@ public class Game {
             { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', },
             { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', },
             { '~', '~', '~', '~', '~', '~', '~', '~', '~', '~', } };
-    private final Scanner s = new Scanner(System.in);
-    ArrayList<Ship> ships = new ArrayList<>();
-    private int countOfSink = 0;
 
+    /**
+     * @param s
+     */
     public void setShip(ArrayList<Ship> s) {
         this.ships = s;
     }
 
     public void printBattleGround() {
-        System.out.println(column);
+        System.out.println(HORRIZONTAL_COORDINATES);
         for (int i = 0; i < battleGround.length; i++) {
-            System.out.print(row.charAt(i) + " ");
+            System.out.print(VERTICAL_COORDINATES.charAt(i) + " ");
             for (int j = 0; j < battleGround[i].length; j++) {
                 System.out.print(battleGround[i][j] + " ");
             }
@@ -45,9 +50,9 @@ public class Game {
     }
 
     public void printBattleGroundFOG() {
-        System.out.println(column);
+        System.out.println(HORRIZONTAL_COORDINATES);
         for (int i = 0; i < battleGroundFOG.length; i++) {
-            System.out.print(row.charAt(i) + " ");
+            System.out.print(VERTICAL_COORDINATES.charAt(i) + " ");
             for (int j = 0; j < battleGroundFOG[i].length; j++) {
                 System.out.print(battleGroundFOG[i][j] + " ");
             }
@@ -55,11 +60,14 @@ public class Game {
         }
     }
 
+    /**
+     * @return StringBuilder
+     */
     public StringBuilder printBattleGroundFOGS() {
-        StringBuilder s1 = new StringBuilder(column);
+        StringBuilder s1 = new StringBuilder(HORRIZONTAL_COORDINATES);
         s1.append(System.lineSeparator());
         for (int i = 0; i < battleGroundFOG.length; i++) {
-            s1.append(row.charAt(i)).append(" ");
+            s1.append(VERTICAL_COORDINATES.charAt(i)).append(" ");
             for (int j = 0; j < battleGroundFOG[i].length; j++) {
                 s1.append(battleGroundFOG[i][j]).append(" ");
             }
@@ -73,153 +81,71 @@ public class Game {
         int b = co[1];
         int c = co[2];
         int d = co[3];
-        if (a == c) {
-            return b > d ? b - d + 1 : d - b + 1;
-        } else if (b == d) {
-            return a > c ? a - c + 1 : c - a + 1;
-        } else {
-            return -1;
-        }
+        // if (a == c) {
+        // return b > d ? b - d + 1 : d - b + 1;
+        // } else if (b == d) {
+        // return a > c ? a - c + 1 : c - a + 1;
+        // } else {
+        // return -1;
+        // }
+        return co[3] - co[2] + 1;
     }
 
-    private boolean empty(int a, int b) {
-        return battleGround[a][b] == '~';
-    }
-
-    public boolean fits(int[] co) {
-        int a = co[0];
-        int b = co[1];
-        int c = co[2];
-        int d = co[3];
-        boolean Svalid;
-        boolean Evalid;
-
-        switch (a) {
-            case 0:
-                switch (b) {
-                    case 0:
-                        Svalid = empty(a + 1, b) && empty(a, b + 1);
-                        break;
-                    case 9:
-                        Svalid = empty(a, b - 1) && empty(a + 1, b);
-                        break;
-                    default:
-                        Svalid = empty(a + 1, b) && empty(a, b - 1) && empty(a, b + 1);
-                        break;
-                }
-                break;
-            case 9:
-                switch (b) {
-                    case 0:
-                        Svalid = empty(a - 1, b) && empty(a, b + 1);
-                        break;
-                    case 9:
-                        Svalid = empty(a - 1, b) && empty(a, b - 1);
-                        break;
-                    default:
-                        Svalid = empty(a - 1, b) && empty(a, b - 1) && empty(a, b + 1);
-                        break;
-                }
-                break;
-            default:
-                switch (b) {
-                    case 0:
-                        Svalid = empty(a - 1, b) && empty(a, b + 1) && empty(a + 1, b);
-                        break;
-                    case 9:
-                        Svalid = empty(a - 1, b) && empty(a, b - 1) && empty(a + 1, b);
-                        break;
-                    default:
-                        Svalid = empty(a - 1, b) && empty(a + 1, b) && empty(a, b + 1) && empty(a, b - 1);
-                        break;
-                }
-                break;
+    private boolean fits(int[] co, boolean horizontal) {
+        boolean valid = true;
+        int a = co[2];
+        int b = co[3];
+        for (int i = a; i <= b; i++) {
+            if (horizontal) {
+                if (invalid_coordinates.contains(co[0] * 10 + i))
+                    return false;
+            } else {
+                if (invalid_coordinates.contains(i * 10 + co[0]))
+                    return false;
+            }
         }
-
-        switch (c) {
-            case 0:
-                switch (d) {
-                    case 0:
-                        Evalid = empty(c + 1, d) && empty(c, d + 1);
-                        break;
-                    case 9:
-                        Evalid = empty(c, d - 1) && empty(c + 1, d);
-                        break;
-                    default:
-                        Evalid = empty(c + 1, d) && empty(c, d - 1) && empty(c, d + 1);
-                        break;
-                }
-                break;
-            case 9:
-                switch (d) {
-                    case 0:
-                        Evalid = empty(c - 1, d) && empty(c, d + 1);
-                        break;
-                    case 9:
-                        Evalid = empty(c - 1, d) && empty(c, d - 1);
-                        break;
-                    default:
-                        Evalid = empty(c - 1, d) && empty(c, d - 1) && empty(c, d + 1);
-                        break;
-                }
-                break;
-            default:
-                switch (d) {
-                    case 0:
-                        Evalid = empty(c + 1, d) && empty(c, d + 1) && empty(c - 1, d);
-                        break;
-                    case 9:
-                        Evalid = empty(c - 1, d) && empty(c, d - 1) && empty(c + 1, d);
-                        break;
-                    default:
-                        Evalid = empty(c - 1, d) && empty(c + 1, d) && empty(c, d - 1) && empty(c, d + 1);
-                        break;
-
-                }
-                break;
-        }
-        return Svalid && Evalid;
+        return valid;
     }
 
     private int convertToNumeric(char a) {
         return a - 65;
     }
 
-    private void fillShip(int[] co, int x) {
+    private void addInvalidCoordinates(int x, int y) {
+        invalid_coordinates.add(x * 10 + y);
+        invalid_coordinates.add(x * 10 + y + 1);
+        invalid_coordinates.add(x * 10 + y - 1);
+        invalid_coordinates.add((x - 1) * 10 + y);
+        invalid_coordinates.add((x + 1) * 10 + y);
+    }
+
+    private void fillShip(int[] co, int x, boolean horizontal) {
         ships.get(x).setCoordinates(co);
-        int a = co[0];
-        int b = co[1];
-        int c = co[2];
-        int d = co[3];
-        if (a == c) {
-            if (b < d) {
-                for (int i = b; i <= d; i++) {
-                    battleGround[a][i] = 'O';
-                }
+        int a = co[2];
+        int b = co[3];
+        for (int i = a; i <= b; i++) {
+            if (horizontal) {
+                addInvalidCoordinates(co[0], i);
+                battleGround[co[0]][i] = 'O';
             } else {
-                for (int i = d; i <= b; i++) {
-                    battleGround[a][i] = 'O';
-                }
-            }
-        } else {
-            if (a < c) {
-                for (int i = a; i <= c; i++) {
-                    battleGround[i][b] = 'O';
-                }
-            } else {
-                for (int i = c; i <= a; i++) {
-                    battleGround[i][b] = 'O';
-                }
+                addInvalidCoordinates(i, co[0]);
+                battleGround[i][co[0]] = 'O';
             }
         }
     }
 
-    private int[] getCoordinates(String shipName, int shipLength) throws IncorrectVCoordinate, IncorrectHCoordinate {
-        int[] coordinates = new int[4];
-        System.out.println("Enter the coordinate of " + shipName + " (" + shipLength + " cells): ");
+    /**
+     * @param ship
+     * @return int[]
+     * @throws IncorrectVCoordinate
+     * @throws IncorrectHCoordinate
+     */
+    private int[] takeCoordinates(Ship ship) throws IncorrectVCoordinate, IncorrectHCoordinate {
+        int start_V = -1, start_H = -1, end_V = -1, end_H = -1;
+        System.out.print("Enter the coordinate of "
+                + ship.getName() + " (" + ship.getLength() + " cells): ");
         do {
-            String start = s.next().toUpperCase();
-            int start_V = -1, start_H = -1;
+            String start = INPUT.next().toUpperCase();
             try {
                 start_V = convertToNumeric(start.charAt(0));
                 if (start_V > 9 || start_V < 0) {
@@ -229,8 +155,6 @@ public class Game {
                 if (start_H > 9 || start_H < 0) {
                     throw new IncorrectHCoordinate(start_H);
                 }
-                coordinates[0] = start_V;
-                coordinates[1] = start_H;
                 break;
             } catch (IncorrectVCoordinate | IncorrectHCoordinate i) {
                 System.out.println(i.getMessage());
@@ -240,8 +164,7 @@ public class Game {
             }
         } while (true);
         do {
-            String end = s.next().toUpperCase();
-            int end_V = -1, end_H = -1;
+            String end = INPUT.next().toUpperCase();
             try {
                 end_V = convertToNumeric(end.charAt(0));
                 if (end_V > 9 || end_V < 0) {
@@ -251,17 +174,23 @@ public class Game {
                 if (end_H > 9 || end_H < 0) {
                     throw new IncorrectHCoordinate(end_H);
                 }
-                coordinates[2] = end_V;
-                coordinates[3] = end_H;
                 break;
             } catch (IncorrectVCoordinate | IncorrectHCoordinate i) {
                 System.out.println(i.getMessage());
             } catch (NumberFormatException e) {
-                System.out.println(e.getMessage() + " incorrect HORIZONTAL " +
+                System.out.print(e.getMessage() + " incorrect HORIZONTAL " +
                         "coordinate." + "\nEnter from: 1 - 10 !!");
             }
         } while (true);
-        return coordinates;
+        if (start_H == end_H) {
+            ship.setHorizontal(false);
+            int[] coordinates = { start_H, end_H, Math.min(start_V, end_V), Math.max(start_V, end_V) };
+            return coordinates;
+        } else {
+            ship.setHorizontal(true);
+            int[] coordinates = { start_V, end_V, Math.min(start_H, end_H), Math.max(start_H, end_H) };
+            return coordinates;
+        }
     }
 
     private int[] getMissileCoordinates(String input) {
@@ -305,12 +234,12 @@ public class Game {
 
     public void shootMissile() {
         // System.out.println("Take a shot!");
-        String input = s.next().toUpperCase();
+        String input = INPUT.next().toUpperCase();
         int[] coordinates = getMissileCoordinates(input);
         boolean retake = checkMissileCoordinates(coordinates);
         while (!retake) {
-            System.out.println("Error! You entered the wrong coordinates! Try again: ");
-            input = s.next().toUpperCase();
+            System.out.print("Error! You entered the wrong coordinates! Try again: ");
+            input = INPUT.next().toUpperCase();
             coordinates = getMissileCoordinates(input);
             retake = checkMissileCoordinates(coordinates);
         }
@@ -330,27 +259,26 @@ public class Game {
     public void assignShips() {
         try {
             for (int i = 0; i < ships.size(); i++) {
-                int shipLength = ships.get(i).getLength();
-                String shipName = ships.get(i).getName();
+                Ship s = ships.get(i);
                 printBattleGround();
-                int[] coordinates = getCoordinates(shipName, shipLength);
+                int[] coordinates = takeCoordinates(s);
                 int inputLength = findLength(coordinates);
-                boolean length = shipLength == inputLength;
-                boolean fits = fits(coordinates);
+                boolean length = s.getLength() == inputLength;
+                boolean fits = fits(coordinates, s.isHorizontal());
                 while (!(length) || !(fits)) {
                     if (inputLength == -1) {
                         System.out.println("Error! Wrong ship location! Try again: ");
                     } else if (!(length)) {
-                        System.out.println("Error! Wrong length of " + shipName + " Try again: ");
+                        System.out.println("Error! Wrong length of " + s.getName() + " Try again: ");
                     } else {
-                        System.out.println("Error! You placed it to close to another one. Try again: ");
+                        System.out.println("Error! You placed it too close to another one. Try again: ");
                     }
-                    coordinates = getCoordinates(shipName, shipLength);
+                    coordinates = takeCoordinates(s);
                     inputLength = findLength(coordinates);
-                    length = shipLength == inputLength;
-                    fits = fits(coordinates);
+                    length = s.getLength() == inputLength;
+                    fits = fits(coordinates, s.isHorizontal());
                 }
-                fillShip(coordinates, i);
+                fillShip(coordinates, i, s.isHorizontal());
             }
         } catch (Exception e) {
             e.getMessage();
