@@ -1,83 +1,84 @@
-
 public class Ship {
-    private final int id;
-    private String name;
-    private int length;
-    private int[] location;
-    private Game g;
-    private boolean horizontal;
-    private static int count = 0;
+    private String name; //Name of ship
+    private int length; //Length of ship
+    private int[] location; //Location of ship in battleground
+    private Battleground g; //Battleground in which ship is placed in
+    private boolean horizontal; //Alignment of ship, horizontal or vertical
 
-    public Ship(String name, int length, Game g) {
-        this.id = count++;
+    /**
+     * Constructor for Ship class
+     *
+     * @param name   Name of ship
+     * @param length Length of ship
+     * @param g      Battleground in which ship is placed in
+     */
+    public Ship(String name, int length, Battleground g) {
         this.name = name;
         this.length = length;
         this.g = g;
     }
 
+    /**
+     * Setter for horizontal variable in Ship class
+     *
+     * @param h Alignment of ship
+     */
     public void setHorizontal(boolean h) {
         horizontal = h;
     }
 
+    /**
+     * Setter for location variable in Ship class
+     *
+     * @param co location of ship
+     */
     public void setCoordinates(int[] co) {
         this.location = co;
     }
 
+    /**
+     * Getter for name in ship class
+     *
+     * @return name of ship
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter for length in Ship class
+     *
+     * @return length of ship
+     */
     public int getLength() {
         return length;
     }
 
+    /**
+     * Getter of horizontal variable in Ship class
+     *
+     * @return horizontal
+     */
     public boolean isHorizontal() {
         return this.horizontal;
     }
 
+    /**
+     * Check is ship is destroyed or not.
+     *
+     * @return True if ship is destroyed,
+     * False if ship is not destroyed.
+     */
     public boolean getSink() {
         int a = location[2];
         int b = location[3];
-        for (int i = a; i <= b; i++) {
-            if (horizontal && (this.g.battleGround[location[0]][i] == 'O')) {
+        for(int i = a; i <= b; i++) {
+            if(horizontal && (this.g.battleGround[location[0]][i] == 'O')) {
                 return false;
-            } else if (this.g.battleGround[i][location[0]] == 'O') {
+            } else if(this.g.battleGround[i][location[0]] == 'O') {
                 return false;
             }
         }
-        // int x1 = location[0];
-        // int y1 = location[1];
-        // int x2 = location[2];
-        // int y2 = location[3];
-        // if (x1 == x2) {
-        // if (y1 > y2) {
-        // for (int i = y2; i <= y1; i++) {
-        // if (this.g.battleGround[x1][i] == 'O') {
-        // return false;
-        // }
-        // }
-        // } else {
-        // for (int i = y1; i <= y2; i++) {
-        // if (this.g.battleGround[x1][i] == 'O') {
-        // return false;
-        // }
-        // }
-        // }
-        // } else {
-        // if (x1 > x2) {
-        // for (int i = x2; i <= x1; i++) {
-        // if (this.g.battleGround[i][y1] == 'O') {
-        // return false;
-        // }
-        // }
-        // } else {
-        // for (int i = x1; i <= x2; i++) {
-        // if (this.g.battleGround[i][y1] == 'O') {
-        // return false;
-        // }
-        // }
-        // }
-        // }
         return true;
     }
 }
